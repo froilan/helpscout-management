@@ -12,10 +12,10 @@ mainApp.service('ConversationService', function($http){
 			}
 		}
 		
-		$http(req).success(function(response) {
-			count = response.count;
-        });
+        //$http(req).success(function(response) {
+			//count = response.count;
+        //});
 
-		return count;
+		return $http(req);
     }
 });

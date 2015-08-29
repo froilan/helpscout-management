@@ -10,7 +10,7 @@
 	<script src="conversationService.js"></script>
 </head>
 <body>
-<div ng-controller="ConversationController">
+<div ng-init="getSynacyMailboxActiveCount()" ng-controller="ConversationController">
     {{count}}
 </div>
 <div ng-init="tagList=getTags()" ng-controller="tagController">

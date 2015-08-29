@@ -5,6 +5,12 @@ mainApp.controller('ConversationController', ['$scope', '$log','ConversationServ
 
     var synacySupportMailboxId = 21167;
 	
-	$scope.count=ConversationService.getByStatusAndMailbox("active", synacySupportMailboxId);
+	$scope.count=0
+
+    $scope.getSynacyMailboxActiveCount = function() {
+        ConversationService.getByStatusAndMailbox("active", synacySupportMailboxId).success(function(data) {
+            $scope.count = data.count
+        });
+    }
 
 }]);
