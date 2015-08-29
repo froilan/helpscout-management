@@ -1,11 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" ng-app>
+<html>
 <head>
     <meta charset="UTF-8">
     <title></title>
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
+	<script src="mainApp.js"></script>
+	<script src="tagController.js"></script>
 </head>
 <body>
-<p>1 + 2 = {{ 1 + 2 }}</p>
+<div ng-app="mainApp" ng-init="tagList=getTags()" ng-controller="tagController">
+	<table>
+	   <tr>
+		  <th>Tag Name</th>
+		  <th>Count</th>
+	   </tr>
+	   <tr ng-repeat="tag in tagList">
+		  <td>{{tag.name}}</td>
+		  <td>{{tag.count}}</td>
+	   </tr>
+	</table>
+</div>
 </body>
 </html>
