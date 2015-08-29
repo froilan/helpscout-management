@@ -1,9 +1,9 @@
 mainApp.service('ConversationService', function($http){
-    this.getByStatusAndMailbox = function(status, mailBoxName) { 
+    this.getByStatusAndMailbox = function(status, mailBoxId) { 
 		var count = 0;
 		
 		var url = 'https://api.helpscout.net/v1/search/conversations.json?query=(status:' 
-				+ status +' AND mailboxName:' + mailBoxName + ')';
+				+ status +' AND mailboxid:' + mailBoxId + ')';
 		var req = {
 			method: 'GET',
 			url: url,
@@ -15,7 +15,7 @@ mainApp.service('ConversationService', function($http){
 		$http(req).success(function(response) {
 			count = response.count;
         });
-		
+
 		return count;
     }
 });
