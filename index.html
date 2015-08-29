@@ -1,14 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="mainApp">
 <head>
     <meta charset="UTF-8">
     <title></title>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
 	<script src="mainApp.js"></script>
 	<script src="tagController.js"></script>
+	<script src="ConversationController.js.js"></script>
+	<script src="conversationService.js"></script>
 </head>
 <body>
-<div ng-app="mainApp" ng-init="tagList=getTags()" ng-controller="tagController">
+<div ng-controller="ConversationController">
+    {{getSynacyMailBoxActiveCount()}}
+</div>
+<div ng-init="tagList=getTags()" ng-controller="tagController">
 	<table>
 	   <tr>
 		  <th>Tag Name</th>
