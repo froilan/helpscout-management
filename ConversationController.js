@@ -10,12 +10,10 @@ mainApp.controller('ConversationController', ['$scope', '$log', '$timeout', 'Con
     var getSynacyMailboxActiveCount = function() {
         ConversationService.getByStatusAndMailbox("active", synacySupportMailboxId).success(function(data) {
             $scope.count = data.count
-            $timeout(getSynacyMailboxActiveCount(), 15000)
+            $timeout(getSynacyMailboxActiveCount, 5000)
         });
     }
-
-    getSynacyMailboxActiveCount()
-
-
+	
+    getSynacyMailboxActiveCount();
 
 }]);
