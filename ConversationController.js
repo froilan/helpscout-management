@@ -3,7 +3,7 @@
  */
 mainApp.controller('ConversationController', ['$scope', '$log','conversationService',function($scope, $log,conversationService) {
 
-    this.getSynacyMailBoxStatusCount = function(conversationService) {
+    this.getSynacyMailBoxActiveCount = function(conversationService) {
         var synacySupportMailboxId = 21167;
         var count = conversationService.getByStatusAndMailbox("active", synacySupportMailboxId);
         $log.info(count);
