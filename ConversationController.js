@@ -1,13 +1,10 @@
 /**
  * Created by froilan on 8/30/15.
  */
-mainApp.controller('ConversationController', ['$scope', '$log','conversationService',function($scope, $log,conversationService) {
+mainApp.controller('ConversationController', ['$scope', '$log','ConversationService',function($scope, $log,ConversationService) {
 
-    this.getSynacyMailBoxActiveCount = function(conversationService) {
-        var synacySupportMailboxId = 21167;
-        var count = conversationService.getByStatusAndMailbox("active", synacySupportMailboxId);
-        $log.info(count);
-        return count;
-    }
+    var synacySupportMailboxId = 21167;
+	
+	$scope.count=ConversationService.getByStatusAndMailbox("active", synacySupportMailboxId);
 
 }]);
