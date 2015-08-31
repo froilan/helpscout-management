@@ -14,8 +14,7 @@
 <body>
 <div ng-controller="ConversationController">
 	<div ng-controller="MailboxController">
-		<select ng-model="mailboxId" ng-change="getActiveCountForMailbox()">
-			<option ng-repeat="mailbox in mailboxList" id={{mailbox.id}}>{{mailbox.name}}</option>
+		<select ng-model="mailboxId" ng-options="mailbox.id as mailbox.name for mailbox in mailboxList" ng-change="getActiveCountForMailbox(mailboxId)">
 		</select>
 	</div>
 	{{testcount}}
