@@ -17,7 +17,9 @@
 		<select ng-model="mailboxId" ng-options="mailbox.id as mailbox.name for mailbox in mailboxList" ng-change="getActiveCountForMailbox(mailboxId)">
 		</select>
 	</div>
-	{{testcount}}
+	{{activeCount}}
+	{{pendingCount}}
+	{{closedCount}}
 </div>
 <div ng-init="tagList=getTags()" ng-controller="tagController">
 	<table>
