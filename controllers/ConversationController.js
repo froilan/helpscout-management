@@ -9,6 +9,7 @@ mainApp.controller('ConversationController', ['$scope', '$log', '$timeout', 'Con
 	$scope.activeCount=0;
 	$scope.pendingCount=0;
 	$scope.closedCount=0;
+    $scope.mailboxId;
 
     var getSynacyMailboxActiveCount = function() {
         ConversationService.getByStatusAndMailbox("active", synacySupportMailboxId).success(function(data) {
@@ -16,19 +17,25 @@ mainApp.controller('ConversationController', ['$scope', '$log', '$timeout', 'Con
             //$timeout(getSynacyMailboxActiveCount, 5000)
         });
     }
-	
-	$scope.getActiveCountForMailbox = function(mailboxId) {
-        ConversationService.getByStatusAndMailbox("active", mailboxId).success(function(data) {
+
+    var updateStatusCounts = function() {
+        ConversationService.getByStatusAndMailbox("active", $scope.mailboxId).success(function(data) {
             $scope.activeCount = data.count;
         });
-        ConversationService.getByStatusAndMailbox("pending", mailboxId).success(function(data) {
+        ConversationService.getByStatusAndMailbox("pending", $scope.mailboxId).success(function(data) {
             $scope.pendingCount = data.count;
         });
-        ConversationService.getByStatusAndMailbox("closed", mailboxId).success(function(data) {
+        ConversationService.getByStatusAndMailbox("closed", $scope.mailboxId).success(function(data) {
             $scope.closedCount = data.count;
         });
+        $timeout(updateStatusCounts, 5000)
     }
 
-    $scope.getActiveCountForMailbox();
+	$scope.setCurrentMailbox = function(mailboxId) {
+        $scope.mailboxId = mailboxId
+        updateStatusCounts();
+    }
+
+    updateStatusCounts();
 
 }]);
