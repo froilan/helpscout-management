@@ -19,6 +19,7 @@
 		<div ng-controller="MailboxController">
 			Mailbox:
 			<select ng-model="mailboxId" ng-options="mailbox.id as mailbox.name for mailbox in mailboxList" ng-change="setCurrentMailbox(mailboxId)">
+				<option value="">All Mailboxes</option>
 			</select>
 		</div>
 		<br/>
