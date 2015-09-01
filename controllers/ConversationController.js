@@ -1,7 +1,7 @@
 /**
  * Created by froilan on 8/30/15.
  */
-mainApp.controller('ConversationController', ['$scope', '$log', '$timeout', 'ConversationService',function($scope, $log, $timeout, ConversationService) {
+mainApp.controller('ConversationController', ['$scope', '$log', '$interval', 'ConversationService',function($scope, $log, $interval, ConversationService) {
 
     var synacySupportMailboxId = 21167;
 	
@@ -19,16 +19,18 @@ mainApp.controller('ConversationController', ['$scope', '$log', '$timeout', 'Con
     }
 
     var updateStatusCounts = function() {
+		$scope.activeLoading = true;
         ConversationService.getByStatusAndMailbox("active", $scope.mailboxId).success(function(data) {
             $scope.activeCount = data.count;
-        });
+        }).finally(function () {
+			$scope.activeLoading = false;
+		});
         ConversationService.getByStatusAndMailbox("pending", $scope.mailboxId).success(function(data) {
             $scope.pendingCount = data.count;
         });
         ConversationService.getByStatusAndMailbox("closed", $scope.mailboxId).success(function(data) {
             $scope.closedCount = data.count;
         });
-        $timeout(updateStatusCounts, 5000)
     }
 
 	$scope.setCurrentMailbox = function(mailboxId) {
@@ -37,5 +39,6 @@ mainApp.controller('ConversationController', ['$scope', '$log', '$timeout', 'Con
     }
 
     updateStatusCounts();
+	$interval(updateStatusCounts, 15000);
 
 }]);
