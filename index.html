@@ -26,7 +26,10 @@
 		
 		<div class="row text-center">
 			<div class="col-sm-4">
-				<div class="panel panel-primary">
+				<div ng-if="activeLoading">
+					Loading...
+				</div>
+				<div  ng-if="!activeLoading"class="panel panel-primary">
 				  <div class="panel-heading"><h4>Active</h4></div>
 				  <div class="panel-body"><h2>{{activeCount}}</h2></div>
 				</div>
