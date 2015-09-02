@@ -18,12 +18,16 @@
 <div class="container">
 	<div ng-controller="ConversationController">
 		<div ng-controller="MailboxController">
-			<fieldset ng-disabled="activeLoading||pendingLoading||closedLoading">
-				Mailbox:
-				<select ng-model="mailboxId" ng-options="mailbox.id as mailbox.name for mailbox in mailboxList" ng-change="setCurrentMailbox(mailboxId)">
-					<option value="">All Mailboxes</option>
-				</select>
-			</fieldset>
+			<form class="form-horizontal">
+				<fieldset ng-disabled="activeLoading||pendingLoading||closedLoading">
+					<div class="form-group">
+						<label for="mailboxSelect" class="control-label">Mailbox:</label>
+						<select id="mailboxSelect" class="form-control" ng-model="mailboxId" ng-options="mailbox.id as mailbox.name for mailbox in mailboxList" ng-change="setCurrentMailbox(mailboxId)" style="width:auto;display:inline-block;">
+							<option value="">All Mailboxes</option>
+						</select>
+					</div>
+				</fieldset>
+			</form>
 		</div>
 		<br/>
 		
