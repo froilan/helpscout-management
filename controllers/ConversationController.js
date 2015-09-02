@@ -20,21 +20,40 @@ mainApp.controller('ConversationController', ['$scope', '$log', '$interval', 'Co
 
     var updateStatusCounts = function() {
 		$scope.activeLoading = true;
+        $scope.pendingLoading = true;
+        $scope.closedLoading = true;
+
         ConversationService.getByStatusAndMailbox("active", $scope.mailboxId).success(function(data) {
             $scope.activeCount = data.count;
         }).finally(function () {
 			$scope.activeLoading = false;
+            if(!$scope.activeLoading && !$scope.pendingLoading && !$scope.closedLoading) {
+                $scope.mailboxChangeLoading = false;
+            }
 		});
+
         ConversationService.getByStatusAndMailbox("pending", $scope.mailboxId).success(function(data) {
             $scope.pendingCount = data.count;
+        }).finally(function () {
+            $scope.pendingLoading = false;
+            if(!$scope.activeLoading && !$scope.pendingLoading && !$scope.closedLoading) {
+                $scope.mailboxChangeLoading = false;
+            }
         });
+
         ConversationService.getByStatusAndMailbox("closed", $scope.mailboxId).success(function(data) {
             $scope.closedCount = data.count;
+        }).finally(function () {
+            $scope.closedLoading = false;
+            if(!$scope.activeLoading && !$scope.pendingLoading && !$scope.closedLoading) {
+                $scope.mailboxChangeLoading = false;
+            }
         });
     }
 
 	$scope.setCurrentMailbox = function(mailboxId) {
-        $scope.mailboxId = mailboxId
+        $scope.mailboxId = mailboxId;
+        $scope.mailboxChangeLoading = true;
         updateStatusCounts();
     }
 

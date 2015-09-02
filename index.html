@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" rel="stylesheet" />
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
 	<script src="MainApp.js"></script>
 	<script src="controllers/TagController.js"></script>
@@ -17,33 +18,37 @@
 <div class="container">
 	<div ng-controller="ConversationController">
 		<div ng-controller="MailboxController">
-			Mailbox:
-			<select ng-model="mailboxId" ng-options="mailbox.id as mailbox.name for mailbox in mailboxList" ng-change="setCurrentMailbox(mailboxId)">
-				<option value="">All Mailboxes</option>
-			</select>
+			<fieldset ng-disabled="activeLoading||pendingLoading||closedLoading">
+				Mailbox:
+				<select ng-model="mailboxId" ng-options="mailbox.id as mailbox.name for mailbox in mailboxList" ng-change="setCurrentMailbox(mailboxId)">
+					<option value="">All Mailboxes</option>
+				</select>
+			</fieldset>
 		</div>
 		<br/>
 		
 		<div class="row text-center">
-			<div class="col-sm-4">
-				<div ng-if="activeLoading">
-					Loading...
-				</div>
-				<div  ng-if="!activeLoading"class="panel panel-primary">
-				  <div class="panel-heading"><h4>Active</h4></div>
-				  <div class="panel-body"><h2>{{activeCount}}</h2></div>
-				</div>
+			<div ng-show="mailboxChangeLoading">
+				<i class="fa fa-spinner fa-spin" style="font-size:8em"></i>
 			</div>
-			<div class="col-sm-4">
-				<div class="panel panel-primary">
-				  <div class="panel-heading"><h4>Pending</h4></div>
-				  <div class="panel-body"><h2>{{pendingCount}}</h2></div>
+			<div ng-hide="mailboxChangeLoading">
+				<div class="col-sm-4">
+					<div class="panel panel-primary">
+					  <div class="panel-heading"><h4>Active</h4></div>
+					  <div class="panel-body"><h2>{{activeCount}}</h2></div>
+					</div>
 				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="panel panel-primary">
-				  <div class="panel-heading"><h4>Closed</h4></div>
-				  <div class="panel-body"><h2>{{closedCount}}</h2></div>
+				<div class="col-sm-4">
+					<div class="panel panel-primary">
+					  <div class="panel-heading"><h4>Pending</h4></div>
+					  <div class="panel-body"><h2>{{pendingCount}}</h2></div>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="panel panel-primary">
+					  <div class="panel-heading"><h4>Closed</h4></div>
+					  <div class="panel-body"><h2>{{closedCount}}</h2></div>
+					</div>
 				</div>
 			</div>
 		</div>
