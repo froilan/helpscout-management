@@ -19,7 +19,7 @@
 	<div ng-controller="ConversationController">
 		<div ng-controller="MailboxController">
 			<form class="form-horizontal">
-				<fieldset ng-disabled="activeLoading||pendingLoading||closedLoading">
+				<fieldset ng-disabled="mailboxChangeLoading">
 					<div class="form-group">
 						<label for="mailboxSelect" class="control-label">Mailbox:</label>
 						<select id="mailboxSelect" class="form-control" ng-model="mailboxId" ng-options="mailbox.id as mailbox.name for mailbox in mailboxList" ng-change="setCurrentMailbox(mailboxId)" style="width:auto;display:inline-block;">

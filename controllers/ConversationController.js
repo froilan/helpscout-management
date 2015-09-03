@@ -57,7 +57,8 @@ mainApp.controller('ConversationController', ['$scope', '$log', '$interval', 'Co
         updateStatusCounts();
     }
 
-    updateStatusCounts();
+    $scope.setCurrentMailbox(null);
+
 	$interval(updateStatusCounts, 15000);
 
 }]);
