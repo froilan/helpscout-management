@@ -4,11 +4,11 @@
 mainApp.controller('ConversationController', ['$scope', '$log', '$interval', 'ConversationService',function($scope, $log, $interval, ConversationService) {
 
     var synacySupportMailboxId = 21167;
-	
-	$scope.count=0;
-	$scope.activeCount=0;
-	$scope.pendingCount=0;
-	$scope.closedCount=0;
+
+    $scope.count=0;
+    $scope.activeCount=0;
+    $scope.pendingCount=0;
+    $scope.closedCount=0;
     $scope.mailboxId;
 
     var getSynacyMailboxActiveCount = function() {
@@ -19,18 +19,18 @@ mainApp.controller('ConversationController', ['$scope', '$log', '$interval', 'Co
     }
 
     var updateStatusCounts = function() {
-		$scope.activeLoading = true;
+        $scope.activeLoading = true;
         $scope.pendingLoading = true;
         $scope.closedLoading = true;
 
         ConversationService.getByStatusAndMailbox("active", $scope.mailboxId).success(function(data) {
             $scope.activeCount = data.count;
         }).finally(function () {
-			$scope.activeLoading = false;
+            $scope.activeLoading = false;
             if(!$scope.activeLoading && !$scope.pendingLoading && !$scope.closedLoading) {
                 $scope.mailboxChangeLoading = false;
             }
-		});
+        });
 
         ConversationService.getByStatusAndMailbox("pending", $scope.mailboxId).success(function(data) {
             $scope.pendingCount = data.count;
@@ -51,7 +51,7 @@ mainApp.controller('ConversationController', ['$scope', '$log', '$interval', 'Co
         });
     }
 
-	$scope.setCurrentMailbox = function(mailboxId) {
+    $scope.setCurrentMailbox = function(mailboxId) {
         $scope.mailboxId = mailboxId;
         $scope.mailboxChangeLoading = true;
         updateStatusCounts();
@@ -59,6 +59,6 @@ mainApp.controller('ConversationController', ['$scope', '$log', '$interval', 'Co
 
     $scope.setCurrentMailbox(null);
 
-	$interval(updateStatusCounts, 15000);
+    $interval(updateStatusCounts, 15000);
 
 }]);
