@@ -23,5 +23,13 @@ dependencies {
            "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}",
            "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
 
-    compile 'org.springframework:spring-webmvc:4.1.6.RELEASE'
+    compile 'org.springframework:spring-webmvc:4.2.1.RELEASE'
+    compile 'org.hibernate:hibernate-core:4.3.10.Final'
+    compile 'org.springframework:spring-tx:4.2.1.RELEASE'
+    compile 'org.eclipse.persistence:javax.persistence:2.1.0'
+    compile 'org.springframework:spring-jdbc:4.2.1.RELEASE'
+    compile 'org.springframework:spring-orm:4.2.1.RELEASE'
+    compile 'postgresql:postgresql:9.1-901-1.jdbc4'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.6.1'
+
 }
