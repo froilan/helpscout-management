@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html ng-app="mainApp">
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" rel="stylesheet" />
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
+	<script type="text/javascript" src="js/MainApp.js"></script>
+	<script type="text/javascript" src="js/controllers/SettingsController.js"></script>
+	<script type="text/javascript" src="js/controllers/MailboxController.js"></script>
+	<script type="text/javascript" src="js/services/MailboxService.js"></script>
+
+</head>
+<body>
+<div class="container">
+	<h2>Settings</h2>
+	<br/>
+	<div class="row" ng-controller="SettingsController">
+		<h3>Helpscout API Details</h3>
+		<form class="form-horizontal">
+			<!--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="email">Email address</label>
+				<div class="col-sm-3">
+					<input type="email" class="form-control" name="email" id="email"  ng-model="email" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="password">Password</label>
+				<div class="col-sm-3">
+					<input type="password" class="form-control" name="password" id="password" ng-model="password" required/>
+				</div>
+			</div>
+		</form>
+
+		<br/>
+		<h3>Dahsboard Layout</h3>
+		<div ng-repeat="mailboxSetting in mailboxSettingList">
+			<div class="panel panel-default">
+				<div class="panel-heading">{{mailboxSetting.mailboxName}}</div>
+				<div class="panel-body">
+					Pending: 
+					<input type="checkbox" ng-checked="mailboxSetting.showPending">
+					Active: 
+					<input type="checkbox" ng-checked="mailboxSetting.showActive">
+					Closed: 
+					<input type="checkbox" ng-checked="mailboxSetting.showClosed">
+				</div>
+			</div>
+			
+		</div>
+		<div ng-controller="MailboxController">
+			<select id="mailboxSelect" class="form-control" ng-model="mailbox" ng-options="mailbox as mailbox.name for mailbox in mailboxList" style="width:auto;display:inline-block;">
+				<option value="">All Mailboxes</option>
+			</select>
+			<input type="button" class="btn btn-default" value="Add" ng-click="addMailboxSetting(mailbox)"/>
+		</div>
+	</div>
+	
+	<br/>
+	
+	<!--
+	<div ng-init="tagList=getTags()" ng-controller="tagController">
+		<table>
+		   <tr>
+			  <th>Tag Name</th>
+			  <th>Count</th>
+		   </tr>
+		   <tr ng-repeat="tag in tagList">
+			  <td>{{tag.name}}</td>
+			  <td>{{tag.count}}</td>
+		   </tr>
+		</table>
+	</div>
+	-->
+</div>
+</body>
+</html>
