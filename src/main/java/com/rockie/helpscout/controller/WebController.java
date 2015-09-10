@@ -14,4 +14,9 @@ public class WebController {
     public String showDashboard() {
         return "/pages/index.html";
     }
+
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String showRegisterPage() {
+        return "/pages/register.html";
+    }
 }
