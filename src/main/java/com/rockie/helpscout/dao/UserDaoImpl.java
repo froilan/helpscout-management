@@ -1,6 +1,7 @@
 package com.rockie.helpscout.dao;
 
 import com.rockie.helpscout.model.User;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,11 @@ import java.util.List;
 @Repository
 public class UserDaoImpl implements UserDao{
 
-    @Autowired
     private SessionFactory sessionFactory;
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     private Session getSession() {
         return sessionFactory.getCurrentSession();
@@ -24,7 +28,7 @@ public class UserDaoImpl implements UserDao{
     @SuppressWarnings("unchecked")
     @Override
     public List<User> getUsers() {
-        List<User> userList = getSession().createQuery("from user").list();
+        List<User> userList = getSession().createQuery("from users").list();
         return userList;
     }
 
@@ -46,5 +50,19 @@ public class UserDaoImpl implements UserDao{
     @Override
     public void deleteUser(User user) {
         getSession().delete(user);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        Query getUserByEmailQuery = getSession().createQuery("FROM User u where u.email = :email");
+        getUserByEmailQuery.setString("email", email);
+
+        List<User> userList = getUserByEmailQuery.list();
+
+        if(userList.size() < 1) {
+            return null;
+        }
+
+        return (User) getUserByEmailQuery.list().get(0);
     }
 }
