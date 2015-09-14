@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/settings")
 public class SettingsController {
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String showSettingsPage() {
-        return "/pages/settings.html";
-    }
+//    @RequestMapping(method = RequestMethod.GET)
+//    public String showSettingsPage() {
+//        return "/pages/settings.html";
+//    }
 }
