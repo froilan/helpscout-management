@@ -1,6 +1,7 @@
 package com.rockie.helpscout.service;
 
 import com.rockie.helpscout.dao.UserDao;
+import com.rockie.helpscout.model.CurrentUser;
 import com.rockie.helpscout.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,7 +37,6 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("Username not found");
         }
 
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
-                new ArrayList());
+        return new CurrentUser(user);
     }
 }
