@@ -7,7 +7,7 @@ mainApp.service('UserService', function($http){
 
         var req = {
             method: 'POST',
-            url: '/helpscout-management/user',
+            url: '/helpscout-management/api/user',
             headers: {
                 'Content-Type': 'application/json'
             },
