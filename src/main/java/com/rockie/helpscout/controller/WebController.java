@@ -18,19 +18,19 @@ public class WebController {
         return "/pages/index.html";
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String showRegisterPage() {
-        return "/pages/register.html";
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String showLoginPage() {
-        //If a user is already logged in, redirect to the dashboard page
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            return "redirect:";
-        }
-
-        return "/pages/login.html";
-    }
+//    @RequestMapping(value = "/register", method = RequestMethod.GET)
+//    public String showRegisterPage() {
+//        return "/pages/register.html";
+//    }
+//
+//    @RequestMapping(value = "/login", method = RequestMethod.GET)
+//    public String showLoginPage() {
+//        //If a user is already logged in, redirect to the dashboard page
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if (!(auth instanceof AnonymousAuthenticationToken)) {
+//            return "redirect:";
+//        }
+//
+//        return "/pages/login.html";
+//    }
 }
