@@ -1,7 +1,8 @@
 /**
  * Created by froilan on 8/30/15.
  */
-mainApp.controller('ConversationController', ['$scope', '$log', '$interval', 'ConversationService',function($scope, $log, $interval, ConversationService) {
+mainApp.controller('DashboardController', ['$scope', '$log', '$interval', 'ConversationService', 'MailboxService',
+        function($scope, $log, $interval, ConversationService, MailboxService) {
 
     var synacySupportMailboxId = 21167;
 
@@ -50,6 +51,8 @@ mainApp.controller('ConversationController', ['$scope', '$log', '$interval', 'Co
             }
         });
     }
+
+    $scope.mailboxList = MailboxService.getMailboxList();
 
     $scope.setCurrentMailbox = function(mailboxId) {
         $scope.mailboxId = mailboxId;
