@@ -1,35 +1,36 @@
-<!DOCTYPE html>
-<html ng-app="mainApp">
-<head>
-    <!--<meta charset="UTF-8">-->
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
-    <!--<title></title>-->
-    <!--<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">-->
-    <!--<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" rel="stylesheet" />-->
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>-->
-    <!--<script type="text/javascript" src="js/MainApp.js"></script>-->
-    <!--<script type="text/javascript" src="js/controllers/ConversationController.js"></script>-->
-    <!--<script type="text/javascript" src="js/services/ConversationService.js"></script>-->
-    <!--<script type="text/javascript" src="js/controllers/MailboxController.js"></script>-->
-    <!--<script type="text/javascript" src="js/services/MailboxService.js"></script>-->
-</head>
-<body>
+<!--<!DOCTYPE html>-->
+<!--<html ng-app="mainApp">-->
+<!--<head>-->
+    <!--&lt;!&ndash;<meta charset="UTF-8">&ndash;&gt;-->
+    <!--&lt;!&ndash;<meta name="viewport" content="width=device-width, initial-scale=1">&ndash;&gt;-->
+    <!--&lt;!&ndash;<title></title>&ndash;&gt;-->
+    <!--&lt;!&ndash;<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">&ndash;&gt;-->
+    <!--&lt;!&ndash;<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" rel="stylesheet" />&ndash;&gt;-->
+    <!--&lt;!&ndash;<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>&ndash;&gt;-->
+    <!--&lt;!&ndash;<script type="text/javascript" src="js/MainApp.js"></script>&ndash;&gt;-->
+    <!--&lt;!&ndash;<script type="text/javascript" src="js/controllers/DashboardController.js"></script>&ndash;&gt;-->
+    <!--&lt;!&ndash;<script type="text/javascript" src="js/services/ConversationService.js"></script>&ndash;&gt;-->
+    <!--&lt;!&ndash;<script type="text/javascript" src="js/controllers/MailboxController.js"></script>&ndash;&gt;-->
+    <!--&lt;!&ndash;<script type="text/javascript" src="js/services/MailboxService.js"></script>&ndash;&gt;-->
+<!--</head>-->
+<!--<body>-->
+<div ng-include="'pages/navigationBar.html'"></div>
+</div>
 <div class="container">
-    <div ng-controller="ConversationController">
-        <div ng-controller="MailboxController">
-            <form class="form-horizontal">
-                <fieldset ng-disabled="mailboxChangeLoading">
-                    <div class="form-group">
-                        <label for="mailboxSelect" class="control-label">Mailbox:</label>
-                        <select id="mailboxSelect" class="form-control" ng-model="mailboxId"
-                                ng-options="mailbox.id as mailbox.name for mailbox in mailboxList" ng-change="setCurrentMailbox(mailboxId)"
-                                style="width:auto;display:inline-block;">
-                            <option value="">All Mailboxes</option>
-                        </select>
-                    </div>
-                </fieldset>
-            </form>
-        </div>
+    <div ng-controller="DashboardController">
+        <form class="form-horizontal">
+            <fieldset ng-disabled="mailboxChangeLoading">
+                <div class="form-group">
+                    <label for="mailboxSelect" class="control-label">Mailbox:</label>
+                    <select id="mailboxSelect" class="form-control" ng-model="mailboxId"
+                            ng-options="mailbox.id as mailbox.name for mailbox in mailboxList" ng-change="setCurrentMailbox(mailboxId)"
+                            style="width:auto;display:inline-block;">
+                        <option value="">All Mailboxes</option>
+                    </select>
+                </div>
+            </fieldset>
+        </form>
+
         <br/>
 
         <div class="row text-center">
@@ -73,5 +74,5 @@
     </div>
     -->
 </div>
-</body>
-</html>
+<!--</body>-->
+<!--</html>-->
