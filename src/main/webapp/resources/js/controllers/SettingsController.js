@@ -1,20 +1,144 @@
-mainApp.controller('SettingsController', ['$scope', '$log',function($scope, $log) {
-	$scope.mailboxSettingList = new Array();
+mainApp.controller('SettingsController', ['$scope', '$rootScope', '$log', 'HelpscoutLoginService', 'MailboxSettingService',
+    function($scope, $rootScope, $log, HelpscoutLoginService, MailboxSettingService) {
 
-    $scope.addMailboxSetting = function(selectedMailbox) {
-        if(!selectedMailbox) {
-            selectedMailbox = {
-                id: null,
-                name: "All Mailboxes"
-            };
+        $scope.mailboxSettingList = new Array();
+        var mailboxSettingToSaveList = new Array();
+        var mailboxSettingToDeleteList = new Array();
+
+        var getCurrentUser =  function() {
+            if($rootScope.currentUser && $rootScope.currentUser.user) {
+                $scope.currentUser = $rootScope.currentUser.user;
+            }
         }
-    	var mailboxSetting = {
-    		mailboxId: selectedMailbox.id,
-    		mailboxName: selectedMailbox.name,
-    		showPending: true,
-    		showActive: true,
-    		showClosed: false
-    	};
-        $scope.mailboxSettingList.push(mailboxSetting);
-    }
+
+        $scope.updateHelpscoutLogin = function() {
+            HelpscoutLoginService.validateHelpscoutLogin($scope.key, $scope.password).success(function (data) {
+                //var user = $rootScope.currentUser.user;
+                HelpscoutLoginService.createOrUpdateHelpscoutLogin($scope.helpscoutId, $scope.currentUser, $scope.key, $scope.password).success(function (data) {
+                    $scope.helpscoutId = data.helpscoutLoginId;
+                });
+            }).error(function (data, status) {
+                getHelpscoutLoginForCurrentUser();
+                alert("Invalid Helpscout Login");
+            });
+
+        }
+
+        var getHelpscoutLoginForCurrentUser = function() {
+            HelpscoutLoginService.getHelpscoutLoginForUser($scope.currentUser.userId).success(function(data) {
+                if(data) {
+                    $scope.helpscoutId = data.helpscoutLoginId;
+                    $scope.key = data.helpscoutKey;
+                    $scope.password = data.helpscoutPassword;
+                }
+            });
+        }
+
+        $scope.addMailboxSetting = function(selectedMailbox) {
+            if(!selectedMailbox) {
+                selectedMailbox = {
+                    id: null,
+                    name: "All Mailboxes"
+                };
+            }
+            var mailboxSetting = {
+                id: null,
+                mailboxId: selectedMailbox.id,
+                mailboxName: selectedMailbox.name,
+                showPending: true,
+                showActive: true,
+                showClosed: false
+            };
+            mailboxSettingToSaveList.push($scope.mailboxSettingList.length);
+            $scope.mailboxSettingList.push(mailboxSetting);
+        }
+        function async(index) {
+            var mbSetting = $scope.mailboxSettingList[index];
+            //var deferred = $q.defer();
+            MailboxSettingService.createOrUpdateMailboxSetting(mbSetting.id, $scope.currentUser, mbSetting.mailboxId, mbSetting.mailboxName,
+                mbSetting.showPending, mbSetting.showActive, mbSetting.showClosed).success(function (data) {
+                    //alert(data.mailboxSettingsId + ' ' + index);
+                    $scope.mailboxSettingList[index].id = data.mailboxSettingsId;
+                    //deferred.resolve(data);
+                });
+            //return deferred.promise;
+        }
+        $scope.updateMailboxSettings = function() {
+            for(i = 0; i < mailboxSettingToSaveList.length; i++) {
+                var mbSettingIndex = mailboxSettingToSaveList[i];
+                var mbSetting = $scope.mailboxSettingList[mbSettingIndex];
+                //var deferred = $q.defer();
+                MailboxSettingService.createOrUpdateMailboxSetting(mbSetting.id, $scope.currentUser, mbSetting.mailboxId, mbSetting.mailboxName,
+                    mbSetting.showPending, mbSetting.showActive, mbSetting.showClosed).success(function (data) {
+                        //alert(data.mailboxSettingsId + ' ' + index);
+                        $scope.mailboxSettingList[mbSettingIndex].id = data.mailboxSettingsId;
+                        //deferred.resolve(data);
+                    });
+                //async(mbSettingIndex);
+            }
+
+            for(i = 0; i < mailboxSettingToDeleteList.length; i++) {
+                var mbSettingIndex = mailboxSettingToDeleteList[i];
+                var mbSetting = $scope.mailboxSettingList[mbSettingIndex];
+                MailboxSettingService.deleteMailboxSetting(mbSetting.id).success(function () {
+
+                });
+
+            }
+            mailboxSettingToSaveList = [];
+            mailboxSettingToDeleteList = [];
+        }
+
+        $scope.processMailboxSettingChange = function(index) {
+            if(!isInArray(index, mailboxSettingToSaveList)) {
+                mailboxSettingToSaveList.push(index);
+            }
+        }
+
+        function isInArray(value, array) {
+            return array.indexOf(value) > -1;
+        }
+
+        $scope.removeMailboxSetting = function(index) {
+            var mailboxSetting = $scope.mailboxSettingList[index];
+            $scope.mailboxSettingList[index].delete = true;
+            alert(mailboxSetting.id);
+            if(mailboxSetting.id != null) {
+                mailboxSettingToDeleteList.push(index);
+            }
+            if(isInArray(index, mailboxSettingToSaveList)) {
+                mailboxSettingToSaveList.splice(mailboxSettingToSaveList.indexOf(index), 1);
+            }
+        }
+
+        $scope.shouldHideMailboxSetting = function(mailboxSetting) {
+            return mailboxSetting.delete && mailboxSetting.delete == true;
+        }
+
+        var getMailboxSettingsForCurrentUser = function() {
+            MailboxSettingService.getMailboxSettingsForUser($scope.currentUser.userId).success(function(data) {
+                $scope.mailboxSettingList= [];
+                var mailboxSettingList = data;
+                for(i = 0; i < mailboxSettingList.length; i++) {
+                    var mailboxSetting = mailboxSettingList[i];
+                    var mbSetting = {
+                        id: mailboxSetting.mailboxSettingsId,
+                        mailboxId: mailboxSetting.mailboxId,
+                        mailboxName: mailboxSetting.mailboxName,
+                        showPending: mailboxSetting.shouldShowPending,
+                        showActive: mailboxSetting.shouldShowActive,
+                        showClosed: mailboxSetting.shouldShowClosed
+                    }
+                    $scope.mailboxSettingList.push(mbSetting);
+                }
+            });
+        }
+
+        //$scope.$watch('mailboxSettingList', function (newVal, oldValue) {
+        //    alert("TEST");
+        //}, true);
+
+        getCurrentUser();
+        getHelpscoutLoginForCurrentUser();
+        getMailboxSettingsForCurrentUser();
 }]);
