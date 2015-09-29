@@ -41,8 +41,9 @@
 		</form>
 
 		<br/>
-		<h3>Dahsboard Layout</h3>
+		<h3>Dashboard Layout</h3>
 		<hr/>
+		<span>{{dashboardError}}</span>
 		<div ng-repeat="mailboxSetting in mailboxSettingList">
 			<div class="panel panel-default" ng-hide="shouldHideMailboxSetting(mailboxSetting)">
 				<div class="panel-heading">
@@ -60,13 +61,16 @@
 			</div>
 			
 		</div>
-		<div ng-controller="MailboxController">
+		<div ng-hide="dashboardError">
 			<select id="mailboxSelect" class="form-control" ng-model="mailbox" ng-options="mailbox as mailbox.name for mailbox in mailboxList" style="width:auto;display:inline-block;">
 				<option value="">All Mailboxes</option>
 			</select>
 			<input type="button" class="btn btn-default" value="Add" ng-click="addMailboxSetting(mailbox)"/>
+			<div class="col-sm-offset-5 col-sm-7">
+				<input type="button" class="btn btn-default" value="Save" ng-click="updateMailboxSettings()"/>
+				<input type="button" class="btn btn-default" value="Reset" ng-click="resetMailboxSettings()"/>
+			</div>
 		</div>
-		<input type="button" class="btn btn-default" value="Save" ng-click="updateMailboxSettings()"/>
 	</div>
 	
 	<br/>
