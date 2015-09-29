@@ -1,4 +1,4 @@
-mainApp.service('ConversationService', function($http){
+mainApp.service('ConversationService', function($http, HelpscoutAppService){
     this.getByStatusAndMailbox = function(status, mailBoxId) {
         var count = 0;
 
@@ -6,16 +6,16 @@ mainApp.service('ConversationService', function($http){
             + status +' AND mailboxid:' + mailBoxId + ')';
         var req = {
             method: 'GET',
-            url: url,
-            headers: {
-                'Authorization': 'Basic YTg1YTU3NTNlOWQ3Mjg0MjAyNmQ5Yzg2YjE1NDI4Y2I2YzVmMTk5MDpjaGFuZ2V0aGlz'
-            }
+            url: url
+            //headers: {
+            //    'Authorization': 'Basic YTg1YTU3NTNlOWQ3Mjg0MjAyNmQ5Yzg2YjE1NDI4Y2I2YzVmMTk5MDpjaGFuZ2V0aGlz'
+            //}
         }
 
         //$http(req).success(function(response) {
         //count = response.count;
         //});
 
-        return $http(req);
+        return HelpscoutAppService(req);
     }
 });
