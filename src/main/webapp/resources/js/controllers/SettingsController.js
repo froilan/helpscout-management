@@ -1,6 +1,7 @@
-mainApp.controller('SettingsController', ['$scope', '$rootScope', '$log', 'HelpscoutLoginService', 'MailboxSettingService',
-    function($scope, $rootScope, $log, HelpscoutLoginService, MailboxSettingService) {
+mainApp.controller('SettingsController', ['$scope', '$rootScope', '$log', 'HelpscoutLoginService', 'MailboxService', 'MailboxSettingService',
+    function($scope, $rootScope, $log, HelpscoutLoginService, MailboxService, MailboxSettingService) {
 
+        $scope.dashboardError = " ";
         $scope.mailboxSettingList = new Array();
         var mailboxSettingToSaveList = new Array();
         var mailboxSettingToDeleteList = new Array();
@@ -16,6 +17,7 @@ mainApp.controller('SettingsController', ['$scope', '$rootScope', '$log', 'Helps
                 //var user = $rootScope.currentUser.user;
                 HelpscoutLoginService.createOrUpdateHelpscoutLogin($scope.helpscoutId, $scope.currentUser, $scope.key, $scope.password).success(function (data) {
                     $scope.helpscoutId = data.helpscoutLoginId;
+                    getMailboxList();
                 });
             }).error(function (data, status) {
                 getHelpscoutLoginForCurrentUser();
@@ -31,7 +33,19 @@ mainApp.controller('SettingsController', ['$scope', '$rootScope', '$log', 'Helps
                     $scope.key = data.helpscoutKey;
                     $scope.password = data.helpscoutPassword;
                 }
+            }).finally(function() {
+                getMailboxList();
             });
+        }
+
+        var getMailboxList = function() {
+            $scope.dashboardError = null;
+            if($scope.key && $scope.password) {
+                $scope.mailboxList = MailboxService.getMailboxList();
+            }
+            else {
+                $scope.dashboardError = "Helpscout API Details must be specified before you can setup the Dashboard Layout";
+            }
         }
 
         $scope.addMailboxSetting = function(selectedMailbox) {
@@ -52,29 +66,32 @@ mainApp.controller('SettingsController', ['$scope', '$rootScope', '$log', 'Helps
             mailboxSettingToSaveList.push($scope.mailboxSettingList.length);
             $scope.mailboxSettingList.push(mailboxSetting);
         }
-        function async(index) {
-            var mbSetting = $scope.mailboxSettingList[index];
+
+        function saveSetting(mbSetting) {
+            //var mbSetting = $scope.mailboxSettingList[index];
             //var deferred = $q.defer();
             MailboxSettingService.createOrUpdateMailboxSetting(mbSetting.id, $scope.currentUser, mbSetting.mailboxId, mbSetting.mailboxName,
                 mbSetting.showPending, mbSetting.showActive, mbSetting.showClosed).success(function (data) {
                     //alert(data.mailboxSettingsId + ' ' + index);
-                    $scope.mailboxSettingList[index].id = data.mailboxSettingsId;
+                    //$scope.mailboxSettingList[index].id = data.mailboxSettingsId;
+                    mbSetting.id = data.mailboxSettingsId;
                     //deferred.resolve(data);
                 });
             //return deferred.promise;
         }
+
         $scope.updateMailboxSettings = function() {
             for(i = 0; i < mailboxSettingToSaveList.length; i++) {
                 var mbSettingIndex = mailboxSettingToSaveList[i];
                 var mbSetting = $scope.mailboxSettingList[mbSettingIndex];
                 //var deferred = $q.defer();
-                MailboxSettingService.createOrUpdateMailboxSetting(mbSetting.id, $scope.currentUser, mbSetting.mailboxId, mbSetting.mailboxName,
-                    mbSetting.showPending, mbSetting.showActive, mbSetting.showClosed).success(function (data) {
-                        //alert(data.mailboxSettingsId + ' ' + index);
-                        $scope.mailboxSettingList[mbSettingIndex].id = data.mailboxSettingsId;
-                        //deferred.resolve(data);
-                    });
-                //async(mbSettingIndex);
+                //MailboxSettingService.createOrUpdateMailboxSetting(mbSetting.id, $scope.currentUser, mbSetting.mailboxId, mbSetting.mailboxName,
+                //    mbSetting.showPending, mbSetting.showActive, mbSetting.showClosed).success(function (data) {
+                //        //alert(data.mailboxSettingsId + ' ' + index);
+                //        $scope.mailboxSettingList[mbSettingIndex].id = data.mailboxSettingsId;
+                //        //deferred.resolve(data);
+                //    });
+                saveSetting(mbSetting);
             }
 
             for(i = 0; i < mailboxSettingToDeleteList.length; i++) {
@@ -85,6 +102,8 @@ mainApp.controller('SettingsController', ['$scope', '$rootScope', '$log', 'Helps
                 });
 
             }
+
+            alert("Successfully saved Mailbox Settings");
             mailboxSettingToSaveList = [];
             mailboxSettingToDeleteList = [];
         }
@@ -102,7 +121,6 @@ mainApp.controller('SettingsController', ['$scope', '$rootScope', '$log', 'Helps
         $scope.removeMailboxSetting = function(index) {
             var mailboxSetting = $scope.mailboxSettingList[index];
             $scope.mailboxSettingList[index].delete = true;
-            alert(mailboxSetting.id);
             if(mailboxSetting.id != null) {
                 mailboxSettingToDeleteList.push(index);
             }
@@ -132,6 +150,10 @@ mainApp.controller('SettingsController', ['$scope', '$rootScope', '$log', 'Helps
                     $scope.mailboxSettingList.push(mbSetting);
                 }
             });
+        }
+
+        $scope.resetMailboxSettings = function() {
+            getMailboxSettingsForCurrentUser();
         }
 
         //$scope.$watch('mailboxSettingList', function (newVal, oldValue) {
