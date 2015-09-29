@@ -19,12 +19,12 @@ import java.util.ArrayList;
 @Service
 @Transactional
 public class MyUserDetailsService implements UserDetailsService {
-
+    @Autowired
     UserDao userDao;
 
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
+//    public void setUserDao(UserDao userDao) {
+//        this.userDao = userDao;
+//    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

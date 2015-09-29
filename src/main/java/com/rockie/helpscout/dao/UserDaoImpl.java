@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Repository
 public class UserDaoImpl implements UserDao{
-
+    @Autowired
     private SessionFactory sessionFactory;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
