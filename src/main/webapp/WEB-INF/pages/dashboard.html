@@ -18,42 +18,81 @@
 </div>
 <div class="container">
     <div ng-controller="DashboardController">
-        <form class="form-horizontal">
-            <fieldset ng-disabled="mailboxChangeLoading">
-                <div class="form-group">
-                    <label for="mailboxSelect" class="control-label">Mailbox:</label>
-                    <select id="mailboxSelect" class="form-control" ng-model="mailboxId"
-                            ng-options="mailbox.id as mailbox.name for mailbox in mailboxList" ng-change="setCurrentMailbox(mailboxId)"
-                            style="width:auto;display:inline-block;">
-                        <option value="">All Mailboxes</option>
-                    </select>
-                </div>
-            </fieldset>
-        </form>
+        <!--<form class="form-horizontal">-->
+            <!--<fieldset ng-disabled="mailboxChangeLoading">-->
+                <!--<div class="form-group">-->
+                    <!--<label for="mailboxSelect" class="control-label">Mailbox:</label>-->
+                    <!--<select id="mailboxSelect" class="form-control" ng-model="mailboxId"-->
+                            <!--ng-options="mailbox.id as mailbox.name for mailbox in mailboxList" ng-change="setCurrentMailbox(mailboxId)"-->
+                            <!--style="width:auto;display:inline-block;">-->
+                        <!--<option value="">All Mailboxes</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+            <!--</fieldset>-->
+        <!--</form>-->
 
-        <br/>
+        <!--<br/>-->
 
-        <div class="row text-center">
-            <div ng-show="mailboxChangeLoading">
-                <i class="fa fa-spinner fa-spin" style="font-size:8em"></i>
-            </div>
-            <div ng-hide="mailboxChangeLoading">
-                <div class="col-sm-4">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading"><h4>Active</h4></div>
-                        <div class="panel-body"><h2>{{activeCount}}</h2></div>
+        <!--<div class="row text-center">-->
+            <!--<div ng-show="mailboxChangeLoading">-->
+                <!--<i class="fa fa-spinner fa-spin" style="font-size:8em"></i>-->
+            <!--</div>-->
+            <!--<div ng-hide="mailboxChangeLoading">-->
+                <!--<div class="col-sm-4">-->
+                    <!--<div class="panel panel-primary">-->
+                        <!--<div class="panel-heading"><h4>Active</h4></div>-->
+                        <!--<div class="panel-body"><h2>{{activeCount}}</h2></div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-4">-->
+                    <!--<div class="panel panel-primary">-->
+                        <!--<div class="panel-heading"><h4>Pending</h4></div>-->
+                        <!--<div class="panel-body"><h2>{{pendingCount}}</h2></div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-4">-->
+                    <!--<div class="panel panel-primary">-->
+                        <!--<div class="panel-heading"><h4>Closed</h4></div>-->
+                        <!--<div class="panel-body"><h2>{{closedCount}}</h2></div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="row">
+            <div ng-repeat="mailbox in mailboxList">
+                <h3>{{mailbox.mailboxName}}</h3>
+                <hr/>
+                <div class="row text-center">
+                    <div ng-show="!mailbox.isPendingRetrieved || !mailbox.isActiveRetrieved || !mailbox.isClosedRetrieved">
+                        <i class="fa fa-spinner fa-spin" style="font-size:8em"></i>
                     </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading"><h4>Pending</h4></div>
-                        <div class="panel-body"><h2>{{pendingCount}}</h2></div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading"><h4>Closed</h4></div>
-                        <div class="panel-body"><h2>{{closedCount}}</h2></div>
+                    <!--<div class="col-sm-4" ng-show="mailbox.isPendingRetrieved && mailbox.isActiveRetrieved && mailbox.isClosedRetrieved"-->
+                         <!--ng-repeat="statusCount in mailbox.statusCounts">-->
+                        <!--<div class="panel panel-primary">-->
+                            <!--<div class="panel-heading"><h4>{{statusCount.status}}</h4></div>-->
+                            <!--<div class="panel-body"><h2>{{statusCount.count}}</h2></div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div ng-show="mailbox.isPendingRetrieved && mailbox.isActiveRetrieved && mailbox.isClosedRetrieved">
+                        <div class="col-sm-4" ng-show="mailbox.pendingCount != undefined">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading"><h4>Pending</h4></div>
+                                <div class="panel-body"><h2>{{mailbox.pendingCount}}</h2></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4" ng-show="mailbox.activeCount != undefined">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading"><h4>Active</h4></div>
+                                <div class="panel-body"><h2>{{mailbox.activeCount}}</h2></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4" ng-show="mailbox.closedCount != undefined">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading"><h4>Closed</h4></div>
+                                <div class="panel-body"><h2>{{mailbox.closedCount}}</h2></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
